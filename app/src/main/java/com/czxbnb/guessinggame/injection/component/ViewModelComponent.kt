@@ -1,6 +1,8 @@
 package com.czxbnb.guessinggame.injection.component
 
 import com.czxbnb.guessinggame.injection.module.RepositoryModule
+import com.czxbnb.guessinggame.ui.question.QuestionViewModel
+import com.czxbnb.guessinggame.ui.splash.SplashViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -17,4 +19,7 @@ interface ViewModelComponent {
         fun repositoryModule (repositoryModule: RepositoryModule): Builder
     }
 
+    fun inject(questionViewModel: QuestionViewModel)
+
+    fun inject(splashViewModel: SplashViewModel)
 }

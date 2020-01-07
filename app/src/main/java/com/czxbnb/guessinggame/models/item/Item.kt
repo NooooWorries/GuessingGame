@@ -6,5 +6,6 @@ data class Item(
     val standFirst: String,
     val storyUrl: String,
     val section: String,
-    val headlines: List<String>
+    val headlines: List<String>,
+    val isAnswered: Boolean = false
 )

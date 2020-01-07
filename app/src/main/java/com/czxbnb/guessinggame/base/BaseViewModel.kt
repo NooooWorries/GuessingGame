@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.czxbnb.guessinggame.injection.component.DaggerViewModelComponent
 import com.czxbnb.guessinggame.injection.component.ViewModelComponent
 import com.czxbnb.guessinggame.injection.module.RepositoryModule
+import com.czxbnb.guessinggame.ui.question.QuestionViewModel
+import com.czxbnb.guessinggame.ui.splash.SplashViewModel
 import java.net.ConnectException
 
 abstract class BaseViewModel : ViewModel() {
@@ -21,7 +23,8 @@ abstract class BaseViewModel : ViewModel() {
 
     private fun inject() {
         when (this) {
-
+            is QuestionViewModel -> component.inject(this)
+            is SplashViewModel -> component.inject(this)
         }
     }
 
