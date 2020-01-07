@@ -9,7 +9,7 @@ import com.czxbnb.guessinggame.models.item.Item
 import com.czxbnb.guessinggame.models.item.ItemDao
 import com.czxbnb.guessinggame.models.item.headlines.HeadlinesConverter
 
-@Database(entities = [Item::class], version = 1)
+@Database(entities = [Item::class], version =1)
 @TypeConverters(HeadlinesConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     companion object {
@@ -24,6 +24,7 @@ abstract class AppDatabase : RoomDatabase() {
                                 AppDatabase::class.java,
                                 "aurora"
                             )
+                            .fallbackToDestructiveMigration()
                             .build()
                     }
                 }

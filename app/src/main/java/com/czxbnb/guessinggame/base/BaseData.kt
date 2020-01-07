@@ -4,5 +4,5 @@ data class BaseData<T>(
     val product: String,
     val resultSize: Int,
     val version: Int,
-    val data: T?
+    val items: T?
 )

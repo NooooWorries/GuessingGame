@@ -27,8 +27,7 @@ class SplashViewModel : BaseViewModel() {
     private fun getItemList() {
         itemSubscription = itemRepository.loadItemList(object : ItemCallback {
             override fun onLoadItemSuccess(itemList: List<Item>) {
-                itemsLiveData.value = itemList
-                Log.d("---->", itemList.size.toString() + "---->")
+                itemsLiveData.postValue(itemList)
             }
 
             override fun onLoadItemError(e: Throwable) {

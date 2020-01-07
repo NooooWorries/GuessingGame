@@ -3,19 +3,21 @@ package com.czxbnb.guessinggame.models.item.headlines
 import androidx.room.TypeConverter
 
 class HeadlinesConverter {
+
     @TypeConverter
-    fun storedStringToHeadlines(value: String): Headlines {
-        val headlineList = value.split("\\s*,\\s*")
-        return Headlines(headlineList)
+    fun fromArray(strings: ArrayList<String>): String {
+        var string = ""
+        for (s in strings) string += "$s|||"
+        return string
     }
 
     @TypeConverter
-    fun headlinesToStoredString(value: Headlines): String {
-        var result = ""
-
-        for (headlineStr in value.headline) {
-            result += "$headlineStr,"
+    fun toArray(concatenatedStrings: String):  ArrayList<String> {
+        val myStrings : ArrayList<String> = ArrayList();
+        for (s: String in concatenatedStrings.split("|||")) {
+            myStrings += s
         }
-        return result
+
+        return myStrings;
     }
 }

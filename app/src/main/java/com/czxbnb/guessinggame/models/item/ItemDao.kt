@@ -10,7 +10,7 @@ interface ItemDao {
     val all: List<Item>
 
     @Insert
-    fun insert(vararg item: Item)
+    fun insert(item: List<Item>?)
 
     @Query("DELETE FROM Item")
     fun removeAll()

@@ -1,9 +1,11 @@
 package com.czxbnb.guessinggame.models.item
 
+import android.accounts.NetworkErrorException
 import com.czxbnb.guessinggame.ITEM_TOKEN
 import com.czxbnb.guessinggame.base.BaseRepository
 import com.czxbnb.guessinggame.models.AppDatabase
 import com.czxbnb.guessinggame.api.ItemApi
+import com.czxbnb.guessinggame.base.AppExecutors
 import com.czxbnb.guessinggame.base.BaseData
 import com.czxbnb.guessinggame.manager.SharedPreferenceManager
 import io.reactivex.Observable
@@ -15,6 +17,8 @@ import javax.inject.Inject
 class ItemRepository private constructor() : BaseRepository() {
     @Inject
     lateinit var itemApi: ItemApi
+    private val sharedPreferenceManager = SharedPreferenceManager.getInstance()
+    private val itemDao = AppDatabase.getInstance()!!.itemDao()
 
     companion object {
         @Volatile
@@ -35,27 +39,49 @@ class ItemRepository private constructor() : BaseRepository() {
     fun loadItemList(
         itemCallback: ItemCallback
     ): Disposable {
-        val itemDao = AppDatabase.getInstance()!!.itemDao()
-        val sharedPreferenceManager = SharedPreferenceManager.getInstance()
-
-        return itemApi.getItems("media", ITEM_TOKEN)
+        return itemApi.getItems("media", ITEM_TOKEN).concatMap {
+            apiItemList ->
+                if (apiItemList.version != sharedPreferenceManager!!.questionVersion) {
+                    onUpdateQuestion(apiItemList)
+                    Observable.just(apiItemList.items)
+                } else {
+                    Observable.fromCallable {itemDao.all}
+                        .concatMap {
+                            dbItemList ->
+                            if (dbItemList.isNotEmpty()) {
+                                Observable.just(dbItemList)
+                            } else {
+                                onUpdateQuestion(apiItemList)
+                                Observable.just(apiItemList.items)
+                            }
+                        }
+                }
+        }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { result ->
-                    // Api Needs improvement
-                    // Should create a standalone API to check the question bank version
-                    // In order to reduce the data traffic
-                    if (result.version != sharedPreferenceManager!!.questionVersion) {
-                        // Reset preference
-                        sharedPreferenceManager.questionVersion = result.version
-                        sharedPreferenceManager.currentProgress = 0
-                        itemCallback.onLoadItemSuccess(result.data!!)
-                    } else {
-                        itemCallback.onLoadItemSuccess(itemDao.all)
+                    if (result != null) {
+                        itemCallback.onLoadItemSuccess(result)
+                    } else{
+                        itemCallback.onLoadItemError(NetworkErrorException("Data not available"))
                     }
                 },
                 { error -> itemCallback.onLoadItemError(error) }
             )
     }
+
+    private fun onUpdateQuestion(data: BaseData<List<Item>>) {
+        if (data.items!!.isEmpty()) {
+            return;
+        }
+        AppExecutors().diskIO.execute {
+            itemDao.removeAll()
+            itemDao.insert(data.items)
+        }
+        sharedPreferenceManager!!.questionVersion = data.version
+        sharedPreferenceManager.currentProgress = 0
+    }
+
+
 }
