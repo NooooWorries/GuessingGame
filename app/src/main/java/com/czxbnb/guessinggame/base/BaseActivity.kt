@@ -13,7 +13,7 @@ import com.gyf.immersionbar.ImmersionBar
 abstract class BaseActivity<ViewModel : BaseViewModel, DataBinding : ViewDataBinding>(
     private val viewModelClass: Class<ViewModel>
 ) : AppCompatActivity() {
-    lateinit var viewModel: ViewModel
+    private lateinit var viewModel: ViewModel
     lateinit var dataBinding: DataBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +32,6 @@ abstract class BaseActivity<ViewModel : BaseViewModel, DataBinding : ViewDataBin
         // Observe error
         viewModel.errorMessage.observe(this, Observer { errorMessage ->
             if (errorMessage != null) showError(errorMessage)
-
         })
     }
 
@@ -40,5 +39,9 @@ abstract class BaseActivity<ViewModel : BaseViewModel, DataBinding : ViewDataBin
 
     private fun showError(errorMessage: String) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show()
+    }
+
+    fun getActivityViewModel(): ViewModel {
+        return this.viewModel
     }
 }

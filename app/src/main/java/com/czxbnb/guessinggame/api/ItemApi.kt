@@ -1,5 +1,6 @@
-package com.czxbnb.guessinggame.network.api
+package com.czxbnb.guessinggame.api
 
+import com.czxbnb.guessinggame.base.BaseData
 import com.czxbnb.guessinggame.models.item.Item
 import io.reactivex.Observable
 import retrofit2.http.GET
@@ -10,5 +11,5 @@ interface ItemApi {
     fun getItems(
         @Query("alt") alt: String,
         @Query("token") token: String
-    ): Observable<List<Item>>
+    ): Observable<BaseData<List<Item>>>
 }

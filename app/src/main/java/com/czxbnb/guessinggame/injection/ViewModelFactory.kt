@@ -13,7 +13,7 @@ class ViewModelFactory : ViewModelProvider.Factory {
                 return QuestionViewModel() as T
             }
             modelClass.isAssignableFrom(SplashViewModel::class.java) -> {
-                return QuestionViewModel() as T
+                return SplashViewModel() as T
             }
         }
         throw IllegalArgumentException("Unknown ViewModel Class")

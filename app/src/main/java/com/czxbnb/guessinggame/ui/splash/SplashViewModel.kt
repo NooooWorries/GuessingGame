@@ -3,6 +3,7 @@ package com.czxbnb.guessinggame.ui.splash
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.czxbnb.guessinggame.base.BaseData
 import com.czxbnb.guessinggame.base.BaseViewModel
 import com.czxbnb.guessinggame.models.item.Item
 import com.czxbnb.guessinggame.models.item.ItemCallback
@@ -31,7 +32,7 @@ class SplashViewModel : BaseViewModel() {
             }
 
             override fun onLoadItemError(e: Throwable) {
-
+                errorMessage.value = e.message
             }
         })
     }
