@@ -1,12 +1,15 @@
 package com.czxbnb.guessinggame.ui.question.headline
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.czxbnb.guessinggame.R
 import com.czxbnb.guessinggame.databinding.ItemHeadlineBinding
+import com.czxbnb.guessinggame.ui.result.ResultActivity
+import com.google.gson.Gson
 
 class HeadlineAdapter : RecyclerView.Adapter<HeadlineAdapter.ViewHolder>() {
     private var headlineList: ArrayList<String> = ArrayList()
@@ -25,7 +28,11 @@ class HeadlineAdapter : RecyclerView.Adapter<HeadlineAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(headlineList[position])
 
-        // TODO: Set onclick listener
+        binding.cvHeadline.setOnClickListener {
+            val intent = Intent(context, ResultActivity::class.java)
+            intent.putExtra("selectedIndex", position)
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount(): Int {
