@@ -19,9 +19,10 @@ class ResultViewModel : BaseViewModel() {
     private val itemLiveData: MutableLiveData<Item> = MutableLiveData()
     val _itemLiveData: LiveData<Item> = itemLiveData
 
-    // Data for correct answer
-    private val selectedIndexLiveData: MutableLiveData<Int> = MutableLiveData()
-    val _selectedIndexLiveData: LiveData<Int> = selectedIndexLiveData
+
+    // Boolean for match result
+    private val isMatchLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    val _isMatchLiveData = isMatchLiveData
 
     fun getData(bundle: Bundle) {
         itemRepository.getItemById(
@@ -29,7 +30,7 @@ class ResultViewModel : BaseViewModel() {
             object : ItemCallback {
                 override fun onLoadItemSuccess(item: Item) {
                     itemLiveData.value = item
-                    selectedIndexLiveData.value = bundle.getInt("selected")
+                    isMatchLiveData.value = bundle.getInt("selectedIndex") == item.correctAnswerIndex
                 }
 
                 override fun onLoadItemError(e: Throwable) {

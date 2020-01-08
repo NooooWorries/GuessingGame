@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.czxbnb.guessinggame.ui.result.ResultViewModel" />
@@ -12,11 +13,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_middle"
-        android:layout_marginLeft="@dimen/spacing_middle"
-        android:layout_marginEnd="@dimen/spacing_middle"
-        android:layout_marginRight="@dimen/spacing_middle"
-        android:layout_marginBottom="@dimen/spacing_middle"
         android:clickable="true"
         android:focusable="true"
         android:orientation="vertical"
@@ -26,6 +22,7 @@
             android:id="@+id/cv_item"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:layout_marginTop="@dimen/spacing_mlarge"
             app:cardCornerRadius="10dp"
             app:cardElevation="0dp">
 

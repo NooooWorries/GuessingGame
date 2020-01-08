@@ -9,7 +9,30 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/spacing_middle"
+        android:layout_marginLeft="@dimen/spacing_middle"
+        android:layout_marginEnd="@dimen/spacing_middle"
+        android:layout_marginRight="@dimen/spacing_middle"
+        android:layout_marginBottom="@dimen/spacing_middle"
+        android:layout_marginTop="@dimen/spacing_xlarge"
         android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:src="@{viewModel._isMatchLiveData ? @drawable/ic_correct : @drawable/ic_wrong}" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/spacing_middle"
+            android:text="@{viewModel._isMatchLiveData ? @string/right : @string/wrong}" />
+
 
         <include layout="@layout/item_news"
             bind:viewModel="@{viewModel}" />
