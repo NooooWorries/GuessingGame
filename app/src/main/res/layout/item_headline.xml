@@ -10,7 +10,8 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_headline"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="@dimen/spacing_middle"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp">
 
@@ -19,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@android:color/black"
             android:text="@{viewModel._headlineLiveData}" />
     </androidx.cardview.widget.CardView>
 </layout>

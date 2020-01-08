@@ -22,10 +22,19 @@
             android:paddingEnd="@dimen/spacing_mlarge"
             android:paddingBottom="@dimen/spacing_middle">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/guess"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Display1"
+                android:textColor="@android:color/black"
+                android:textStyle="bold" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_item"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:layout_marginTop="@dimen/spacing_middle"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp">
 
@@ -42,6 +51,15 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.cardview.widget.CardView>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_middle"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:text="@{`Your current score: ` + viewModel._currentScoreLiveData}"
+                android:textColor="@android:color/black" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_headline"
                 adapter="@{viewModel.getHeadlineAdapter()}"
@@ -50,6 +68,16 @@
                 android:layout_marginLeft="@dimen/spacing_medium"
                 android:layout_marginRight="@dimen/spacing_medium"
                 android:orientation="vertical" />
+
+            <Button
+                android:id="@+id/btn_skip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_middle"
+                android:background="@color/red_error"
+                android:minHeight="45dp"
+                android:text="@string/skip_i_give_up"
+                android:textColor="@android:color/white" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </layout>

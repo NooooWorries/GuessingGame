@@ -12,6 +12,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.lang.Exception
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
@@ -73,14 +74,15 @@ class ItemRepository private constructor() : BaseRepository() {
     fun getItemById(id: Int, itemCallback: ItemCallback) {
         AppExecutors().diskIO.execute {
             val isRowExist = itemDao.isRowExist(id)
+            val item: Item
             if (isRowExist > 0) {
-                val item = itemDao.getItemById(id)
+                item = itemDao.getItemById(id)
                 AppExecutors().mainThread.execute {
                     itemCallback.onLoadItemSuccess(item)
                 }
             } else {
                 AppExecutors().mainThread.execute {
-                    itemCallback.onLoadItemError(IllegalArgumentException("Item not available"))
+                    itemCallback.onLoadItemError(Exception("No data available"))
                 }
             }
         }
@@ -90,14 +92,14 @@ class ItemRepository private constructor() : BaseRepository() {
         if (data.items!!.isEmpty()) {
             return
         }
-        AppExecutors().diskIO.execute {
-            itemDao.removeAll()
-            itemDao.insert(data.items)
-            val topId = itemDao.getTopId()
-            AppExecutors().mainThread.execute {
-                sharedPreferenceManager!!.questionVersion = data.version
-                sharedPreferenceManager.currentProgress = topId
-            }
-        }
+
+        itemDao.removeAll()
+        itemDao.insert(data.items)
+        val topId = itemDao.getTopId()
+
+        sharedPreferenceManager!!.questionVersion = data.version
+        sharedPreferenceManager.currentProgress = topId
+
+
     }
 }

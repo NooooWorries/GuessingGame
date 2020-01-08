@@ -38,7 +38,7 @@ class SharedPreferenceManager {
         set(questionVersion: Int) = mPrefs.edit().putInt(KEY_QUESTION_VERSION, questionVersion).apply()
 
     var currentProgress: Int
-        get() = mPrefs.getInt(KEY_CURRENT_PROGRESS, 0)
+        get() = mPrefs.getInt(KEY_CURRENT_PROGRESS, 1)
         set(questionVersion: Int) = mPrefs.edit().putInt(KEY_CURRENT_PROGRESS, questionVersion).apply()
 
     var currentScore: Int

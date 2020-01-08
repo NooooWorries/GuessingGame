@@ -20,11 +20,16 @@ class QuestionViewModel : BaseViewModel() {
     private val itemLiveData: MutableLiveData<Item> = MutableLiveData()
     val _itemLiveData : LiveData<Item> = itemLiveData
 
+    // Live data for current score
+    private val currentScoreLiveData: MutableLiveData<Int> = MutableLiveData()
+    val _currentScoreLiveData = currentScoreLiveData
+
     // Headline adapter
     val headlineAdapter: HeadlineAdapter = HeadlineAdapter()
 
     init {
         getItem()
+        getCurrentScore()
     }
 
     private fun getItem () {
@@ -39,5 +44,9 @@ class QuestionViewModel : BaseViewModel() {
                   errorMessage.value = e.message
                }
            })
+    }
+
+    private fun getCurrentScore() {
+        currentScoreLiveData.value = SharedPreferenceManager.getInstance()!!.currentScore
     }
 }

@@ -18,6 +18,9 @@ interface ItemDao {
     @Query("SELECT id FROM Item LIMIT 1")
     fun getTopId(): Int
 
+    @Query("SELECT * FROM Item LIMIT 1")
+    fun getToRow(): Item
+
     @Query("SELECT * FROM Item WHERE id = :id")
     fun getItemById(id: Int): Item
 

@@ -7,4 +7,6 @@
     <string name="wrong">You are wrong! You lost 1 point!</string>
     <string name="read_more"><![CDATA[Read more -->]]></string>
     <string name="next_question">Next Question</string>
+    <string name="skip_i_give_up">Skip! I give up</string>
+    <string name="guess">Guess</string>
 </resources>
