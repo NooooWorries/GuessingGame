@@ -14,7 +14,7 @@ object RepositoryModule {
     @Provides
     @Reusable
     @JvmStatic
-    internal fun provideActivityRepository(): ItemRepository {
+    internal fun provideItemRepository(): ItemRepository {
         return ItemRepository.getInstance()
     }
 }

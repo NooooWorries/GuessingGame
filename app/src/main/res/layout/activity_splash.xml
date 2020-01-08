@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
@@ -11,6 +13,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+        <com.dd.processbutton.iml.ActionProcessButton
+            android:id="@+id/btn_enroll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            android:minHeight="40dp"
+            android:text="@string/start_game"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:pb_colorComplete="@android:color/holo_green_light"
+            app:pb_textComplete="@string/start_game"
+            app:pb_textProgress="@string/loading"
+            app:pb_textError="Error, Please try again"
+            tools:ignore="UnusedAttribute" />
 
     </LinearLayout>
 </layout>

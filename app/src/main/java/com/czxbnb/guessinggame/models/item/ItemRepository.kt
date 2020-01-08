@@ -12,6 +12,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 class ItemRepository private constructor() : BaseRepository() {
@@ -37,51 +38,66 @@ class ItemRepository private constructor() : BaseRepository() {
     }
 
     fun loadItemList(
-        itemCallback: ItemCallback
+        itemListCallback: ItemListCallback
     ): Disposable {
-        return itemApi.getItems("media", ITEM_TOKEN).concatMap {
-            apiItemList ->
-                if (apiItemList.version != sharedPreferenceManager!!.questionVersion) {
-                    onUpdateQuestion(apiItemList)
-                    Observable.just(apiItemList.items)
-                } else {
-                    Observable.fromCallable {itemDao.all}
-                        .concatMap {
-                            dbItemList ->
-                            if (dbItemList.isNotEmpty()) {
-                                Observable.just(dbItemList)
-                            } else {
-                                onUpdateQuestion(apiItemList)
-                                Observable.just(apiItemList.items)
-                            }
+        return itemApi.getItems("media", ITEM_TOKEN).concatMap { apiItemList ->
+            if (apiItemList.version != sharedPreferenceManager!!.questionVersion) {
+                onUpdateQuestion(apiItemList)
+                Observable.just(apiItemList.items)
+            } else {
+                Observable.fromCallable { itemDao.all }
+                    .concatMap { dbItemList ->
+                        if (dbItemList.isNotEmpty()) {
+                            Observable.just(dbItemList)
+                        } else {
+                            onUpdateQuestion(apiItemList)
+                            Observable.just(apiItemList.items)
                         }
-                }
+                    }
+            }
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { result ->
                     if (result != null) {
-                        itemCallback.onLoadItemSuccess(result)
-                    } else{
-                        itemCallback.onLoadItemError(NetworkErrorException("Data not available"))
+                        itemListCallback.onLoadItemListSuccess(result)
+                    } else {
+                        itemListCallback.onLoadItemError(NetworkErrorException("Data not available"))
                     }
                 },
-                { error -> itemCallback.onLoadItemError(error) }
+                { error -> itemListCallback.onLoadItemError(error) }
             )
+    }
+
+    fun getItemById(id: Int, itemCallback: ItemCallback) {
+        AppExecutors().diskIO.execute {
+            val isRowExist = itemDao.isRowExist(id)
+            if (isRowExist > 0) {
+                val item = itemDao.getItemById(id)
+                AppExecutors().mainThread.execute {
+                    itemCallback.onLoadItemSuccess(item)
+                }
+            } else {
+                AppExecutors().mainThread.execute {
+                    itemCallback.onLoadItemError(IllegalArgumentException("Item not available"))
+                }
+            }
+        }
     }
 
     private fun onUpdateQuestion(data: BaseData<List<Item>>) {
         if (data.items!!.isEmpty()) {
-            return;
+            return
         }
         AppExecutors().diskIO.execute {
             itemDao.removeAll()
             itemDao.insert(data.items)
+            val topId = itemDao.getTopId()
+            AppExecutors().mainThread.execute {
+                sharedPreferenceManager!!.questionVersion = data.version
+                sharedPreferenceManager.currentProgress = topId
+            }
         }
-        sharedPreferenceManager!!.questionVersion = data.version
-        sharedPreferenceManager.currentProgress = 0
     }
-
-
 }

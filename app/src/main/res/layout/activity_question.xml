@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.czxbnb.guessinggame.ui.question.QuestionViewModel" />
+    </data>
+    <LinearLayout
+        android:paddingTop="@dimen/spacing_middle"
+        android:paddingBottom="@dimen/spacing_middle"
+        android:paddingStart="@dimen/spacing_mlarge"
+        android:paddingEnd="@dimen/spacing_mlarge"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/travel_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            mutableImage="@{viewModel._itemLiveData.imageUrl}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="centerCrop"
+            android:tint="#64000000" />
+
+    </LinearLayout>
+</layout>
