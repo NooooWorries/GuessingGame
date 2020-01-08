@@ -19,4 +19,4 @@ _Question_: This page allows user to select the headline that best suits the pic
 _Result_: This page shows the result of users' selection, and allows user to jump to next question.
 
 ## Contact
-For more information, please contact czxbnb@vip.qq.com
+For more information, please contact czxbnb@gmail.com
