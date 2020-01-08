@@ -42,6 +42,9 @@ class ItemRepository private constructor() : BaseRepository() {
         itemListCallback: ItemListCallback
     ): Disposable {
         return itemApi.getItems("media", ITEM_TOKEN).concatMap { apiItemList ->
+            // Update the question bank database if
+            // 1. Database is blank, or
+            // 2. Newest version available
             if (apiItemList.version != sharedPreferenceManager!!.questionVersion) {
                 onUpdateQuestion(apiItemList)
                 Observable.just(apiItemList.items)
@@ -99,7 +102,5 @@ class ItemRepository private constructor() : BaseRepository() {
 
         sharedPreferenceManager!!.questionVersion = data.version
         sharedPreferenceManager.currentProgress = topId
-
-
     }
 }

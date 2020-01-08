@@ -21,11 +21,15 @@ class SplashActivity :
         val btnEnroll = dataBinding.btnEnroll
         btnEnroll.setMode(ActionProcessButton.Mode.ENDLESS)
         btnEnroll.setOnClickListener {
+            btnEnroll.isEnabled = false
             getActivityViewModel()._progress.observe(this, Observer {
                 btnEnroll.progress = it
                 if (it == 100) {
+                    btnEnroll.isEnabled = true
                     val intent = Intent(this, QuestionActivity::class.java)
                     startActivity(intent)
+                } else if (it == -1) {
+                    btnEnroll.isEnabled = true
                 }
             })
         }

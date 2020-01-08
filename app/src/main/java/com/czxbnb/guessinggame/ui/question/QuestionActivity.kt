@@ -1,6 +1,9 @@
 package com.czxbnb.guessinggame.ui.question
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.czxbnb.guessinggame.R
 import com.czxbnb.guessinggame.base.BaseActivity
@@ -16,6 +19,15 @@ class QuestionActivity :
         super.onCreate(savedInstanceState)
         dataBinding.viewModel = getActivityViewModel()
         dataBinding.rvHeadline.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+        // Add on click listener for read more
+        getActivityViewModel()._itemLiveData.observe(this, Observer { item ->
+            btn_read.setOnClickListener {
+                val intent = Intent("android.intent.action.VIEW",
+                    Uri.parse(item.storyUrl))
+                startActivity(intent)
+            }
+        })
 
         // Add on click listener for skip
         btn_skip.setOnClickListener {
