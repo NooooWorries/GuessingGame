@@ -3,6 +3,7 @@ package com.czxbnb.guessinggame.injection
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.czxbnb.guessinggame.ui.question.QuestionViewModel
+import com.czxbnb.guessinggame.ui.question.headline.HeadlineViewModel
 import com.czxbnb.guessinggame.ui.splash.SplashViewModel
 
 @Suppress("UNCHECKED_CAST")
@@ -14,6 +15,9 @@ class ViewModelFactory : ViewModelProvider.Factory {
             }
             modelClass.isAssignableFrom(SplashViewModel::class.java) -> {
                 return SplashViewModel() as T
+            }
+            modelClass.isAssignableFrom(HeadlineViewModel::class.java) -> {
+                return HeadlineViewModel() as T
             }
         }
         throw IllegalArgumentException("Unknown ViewModel Class")

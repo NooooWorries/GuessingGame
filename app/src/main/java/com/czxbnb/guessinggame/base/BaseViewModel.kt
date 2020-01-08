@@ -6,6 +6,7 @@ import com.czxbnb.guessinggame.injection.component.DaggerViewModelComponent
 import com.czxbnb.guessinggame.injection.component.ViewModelComponent
 import com.czxbnb.guessinggame.injection.module.RepositoryModule
 import com.czxbnb.guessinggame.ui.question.QuestionViewModel
+import com.czxbnb.guessinggame.ui.question.headline.HeadlineViewModel
 import com.czxbnb.guessinggame.ui.splash.SplashViewModel
 import java.net.ConnectException
 
@@ -25,6 +26,7 @@ abstract class BaseViewModel : ViewModel() {
         when (this) {
             is QuestionViewModel -> component.inject(this)
             is SplashViewModel -> component.inject(this)
+            is HeadlineViewModel -> component.inject(this)
         }
     }
 

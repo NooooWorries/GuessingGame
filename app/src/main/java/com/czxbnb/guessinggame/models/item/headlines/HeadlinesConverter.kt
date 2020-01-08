@@ -13,11 +13,13 @@ class HeadlinesConverter {
 
     @TypeConverter
     fun toArray(concatenatedStrings: String):  ArrayList<String> {
-        val myStrings : ArrayList<String> = ArrayList();
+        val myStrings : ArrayList<String> = ArrayList()
         for (s: String in concatenatedStrings.split("|||")) {
-            myStrings += s
+            if (s.isNotEmpty()) {
+                myStrings += s
+            }
         }
 
-        return myStrings;
+        return myStrings
     }
 }

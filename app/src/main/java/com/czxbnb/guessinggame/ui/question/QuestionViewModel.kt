@@ -8,6 +8,7 @@ import com.czxbnb.guessinggame.manager.SharedPreferenceManager
 import com.czxbnb.guessinggame.models.item.Item
 import com.czxbnb.guessinggame.models.item.ItemCallback
 import com.czxbnb.guessinggame.models.item.ItemRepository
+import com.czxbnb.guessinggame.ui.question.headline.HeadlineAdapter
 import javax.inject.Inject
 
 
@@ -19,6 +20,9 @@ class QuestionViewModel : BaseViewModel() {
     private val itemLiveData: MutableLiveData<Item> = MutableLiveData()
     val _itemLiveData : LiveData<Item> = itemLiveData
 
+    // Headline adapter
+    val headlineAdapter: HeadlineAdapter = HeadlineAdapter()
+
     init {
         getItem()
     }
@@ -28,6 +32,7 @@ class QuestionViewModel : BaseViewModel() {
            object : ItemCallback {
                override fun onLoadItemSuccess(item: Item) {
                    itemLiveData.value = item
+                   headlineAdapter.updateHeadlineList(item.headlines)
                }
 
                override fun onLoadItemError(e: Throwable) {
