@@ -9,10 +9,10 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/spacing_middle"
-        android:layout_marginLeft="@dimen/spacing_middle"
-        android:layout_marginEnd="@dimen/spacing_middle"
-        android:layout_marginRight="@dimen/spacing_middle"
+        android:layout_marginStart="@dimen/spacing_mlarge"
+        android:layout_marginLeft="@dimen/spacing_mlarge"
+        android:layout_marginEnd="@dimen/spacing_mlarge"
+        android:layout_marginRight="@dimen/spacing_mlarge"
         android:layout_marginBottom="@dimen/spacing_middle"
         android:layout_marginTop="@dimen/spacing_xlarge"
         android:orientation="vertical">
@@ -33,8 +33,25 @@
             android:layout_marginTop="@dimen/spacing_middle"
             android:text="@{viewModel._isMatchLiveData ? @string/right : @string/wrong}" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="@dimen/spacing_middle"
+            android:text="@{`Your total score: ` + viewModel._currentScoreLiveData}" />
 
         <include layout="@layout/item_news"
             bind:viewModel="@{viewModel}" />
+
+        <Button
+            android:id="@+id/btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/next_question"
+            android:layout_marginTop="@dimen/spacing_mlarge"
+            android:textColor="@android:color/white"
+            android:minHeight="45dp"
+            android:background="@color/blue_normal" />
     </LinearLayout>
 </layout>

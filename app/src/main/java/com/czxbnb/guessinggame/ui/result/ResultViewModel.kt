@@ -19,10 +19,16 @@ class ResultViewModel : BaseViewModel() {
     private val itemLiveData: MutableLiveData<Item> = MutableLiveData()
     val _itemLiveData: LiveData<Item> = itemLiveData
 
-
     // Boolean for match result
     private val isMatchLiveData: MutableLiveData<Boolean> = MutableLiveData()
     val _isMatchLiveData = isMatchLiveData
+
+    // Live data for current score
+    private val currentScoreLiveData: MutableLiveData<Int> = MutableLiveData()
+    val _currentScoreLiveData : LiveData<Int> = currentScoreLiveData
+
+    // Preference manager
+    private val preferenceManager = SharedPreferenceManager.getInstance()
 
     fun getData(bundle: Bundle) {
         itemRepository.getItemById(
@@ -31,6 +37,17 @@ class ResultViewModel : BaseViewModel() {
                 override fun onLoadItemSuccess(item: Item) {
                     itemLiveData.value = item
                     isMatchLiveData.value = bundle.getInt("selectedIndex") == item.correctAnswerIndex
+
+                    // Set scores and progress
+                    if (isMatchLiveData.value == true) {
+                        preferenceManager!!.currentScore += 2
+                    } else {
+                        if (preferenceManager!!.currentScore >= 1) {
+                            preferenceManager.currentScore -=1
+                        }
+                    }
+                    preferenceManager!!.currentProgress += 1
+                    currentScoreLiveData.value = preferenceManager!!.currentScore
                 }
 
                 override fun onLoadItemError(e: Throwable) {

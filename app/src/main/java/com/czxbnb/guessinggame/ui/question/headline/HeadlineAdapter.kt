@@ -31,6 +31,7 @@ class HeadlineAdapter : RecyclerView.Adapter<HeadlineAdapter.ViewHolder>() {
         binding.cvHeadline.setOnClickListener {
             val intent = Intent(context, ResultActivity::class.java)
             intent.putExtra("selectedIndex", position)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             context.startActivity(intent)
         }
     }

@@ -5,4 +5,6 @@
     <string name="data_loaded">Data Loaded</string>
     <string name="right">You are right! You earned 2 points!</string>
     <string name="wrong">You are wrong! You lost 1 point!</string>
+    <string name="read_more"><![CDATA[Read more -->]]></string>
+    <string name="next_question">Next Question</string>
 </resources>
